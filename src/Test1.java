@@ -6,7 +6,7 @@ import java.util.Map;
 
 
 public class Test1 {
-    //Something
+    //Replace Magic Number with Symbolic Constant
     public static final int TRAGEDYAMOUNT = 40000;
     public static final int COMEDYAMOUNT = 30000;
 
@@ -32,18 +32,19 @@ public class Test1 {
             "othello", new Play("Othello", "tragedy")
     );
 
+    //
     public static int amountCal(Play play, Performance perf) {
         int result;
         switch (play.type()) {
             case "tragedy" -> {
-                result = TRAGEDYAMOUNT;
+                result = TRAGEDYAMOUNT;//Replace Magic Number with Symbolic Constant
                 if (perf.audience() > 30) {
                     result += 1000 * (perf.audience() - 30);
                 }
             }
 
             case "comedy" -> {
-                result = COMEDYAMOUNT;
+                result = COMEDYAMOUNT;//Replace Magic Number with Symbolic Constant
                 if (perf.audience > 20) {
                     result += 10000 + 500 * (perf.audience() - 20);
                 }
@@ -54,12 +55,14 @@ public class Test1 {
         return result;
     }
 
+    //
     public static String format(long amount) {
         final NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.US);
         formatter.setCurrency(Currency.getInstance(Locale.US));
         return formatter.format(amount / 100);
     }
 
+    //
     public static int volumeCreditsCal (Play play, Performance perf) {
         int result = 0;
         result += Math.max(perf.audience() - 30, 0);
@@ -77,8 +80,10 @@ public class Test1 {
 
         for (Performance perf : invoice.performances()) {
             final Play play = plays.get(perf.playID());
-            totalAmount += amountCal(play, perf);
-            volumeCredits += volumeCreditsCal(play, perf);
+
+            totalAmount += amountCal(play, perf); //inline temp
+
+            volumeCredits += volumeCreditsCal(play, perf); //extract method
 
             result += " " + play.name() + ": " + format(amountCal(play, perf)) + " (" + perf.audience() + "seats)\n";
         }
